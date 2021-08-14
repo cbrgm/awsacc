@@ -56,7 +56,7 @@ aws organizations list-accounts > ~/.aws/accounts.json
 
 The use of the tool can be accessed through the `help` subcommand
 
-```bash
+```
 Usage: awsacc [options] [subcommand] [options] <args>
 
 Replaces AWS account ids with their human-readable names
@@ -114,7 +114,7 @@ $ cat test.json | awsacc -c -v
 
 Output:
 
-```json
+```diff
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -145,7 +145,7 @@ $ cat test.json | awsacc -c
 
 Output:
 
-```json
+```diff
 {
   "Version": "2012-10-17",
   "Statement": [
