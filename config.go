@@ -25,6 +25,7 @@ const (
 	globalConfigDir        = ".aws/"
 	globalConfigWindowsDir = "aws\\"
 	globalConfigFile       = "accounts.json"
+	globalConfigEnvVar = "AWSACC_CONFIG"
 )
 
 var (
@@ -40,18 +41,18 @@ var (
 	ErrInvalidArgument = errors.New("argument is invalid or was nil")
 )
 
-// customConfigDir contains the whole path to config dir. Only access via get/set functions.
-var customConfigDir string
+// customConfigFile contains the whole path to config file. Only access via get/set functions.
+var customConfigFile string
 
-// SetConfigDir sets a custom config folder.
-func SetConfigDir(configDir string) {
-	customConfigDir = configDir
+// SetConfigFile sets a custom config folder.
+func SetConfigFile(configFile string) {
+	customConfigFile = configFile
 }
 
 // GetConfigDir constructs config folder.
 func GetConfigDir() (string, error) {
-	if customConfigDir != "" {
-		return customConfigDir, nil
+	if customConfigFile != "" {
+		return customConfigFile, nil
 	}
 	homeDir, e := homedir.Dir()
 	if e != nil {
@@ -69,8 +70,8 @@ func GetConfigDir() (string, error) {
 
 // GetConfigPath constructs the configuration path.
 func GetConfigPath() (string, error) {
-	if customConfigDir != "" {
-		return filepath.Join(customConfigDir, globalConfigFile), nil
+	if customConfigFile != "" {
+		return customConfigFile, nil
 	}
 	dir, err := GetConfigDir()
 	if err != nil {
@@ -81,6 +82,12 @@ func GetConfigPath() (string, error) {
 
 // LoadConfig loads the config file
 func LoadConfig() (*Config, error) {
+
+	val, present := os.LookupEnv(globalConfigEnvVar)
+	if present && val != "" {
+		SetConfigFile(val)
+	}
+
 	file, err := GetConfigPath()
 	if err != nil {
 		return nil, err
