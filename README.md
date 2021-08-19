@@ -28,10 +28,24 @@ git clone git@github.com:cbrgm/awsacc.git && cd awsacc
 go mod vendor && make
 ```
 
+Another option is to use `awsacc` inside a container
+
+```bash
+docker run --rm -it \
+   -v ~/.aws/accounts.json:/data/accounts.json \
+   -v $(pwd):$(pwd) \
+   cbrgm/awsacc:latest -f $(pwd)/file.json
+```
+
+where `~/.aws/accounts.json` is your config file and `$(pwd)/file.json` is the file to check.
+
 ### Configuration 
 
 A configuration file must be created so that the tool can search and substitute AWS account names and IDs. 
-The configuration file is a JSON file consisting of accounts (tuples of names and IDs). By default, it is stored under the path `$HOME/.aws/accounts.json`
+The configuration file is a JSON file consisting of accounts (tuples of names and IDs). 
+
+By default, it is stored under the path `$HOME/.aws/accounts.json`. 
+You can also reference a config file via the environment variable `AWSACC_CONFIG` (Example: `export AWSACC_CONFIG=/path/to/config.json`).
 
 ***~/.aws/accounts.json***
 ```json
@@ -182,7 +196,7 @@ List all accounts names of accounts `312345643213`, `612345343211` and `82234564
 awsacc ls 312345643213 612345343211 822345643215
 ```
 
-List all accounts ids of accounts containing `dev` in their name, use strict mode `-s` to exit with `err 1` when no results were found
+List all accounts ids of accounts containing `doesntexist` in their name, use strict mode `-s` to exit with `err 1` when no results have been found
 ```bash
 awsacc ls -s doesntexist
 ```
