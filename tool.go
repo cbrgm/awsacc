@@ -3,11 +3,12 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/fatih/color"
 	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 type AccTool struct {
@@ -18,9 +19,11 @@ type AccTool struct {
 	strictMode bool
 }
 
-const accountIDRegexp = "\\b\\d{12}\\b"
-const onlyDigitsRegexp = "^\\d+$"
-const unknownItem = "unknown"
+const (
+	accountIDRegexp  = "\\b\\d{12}\\b"
+	onlyDigitsRegexp = "^\\d+$"
+	unknownItem      = "unknown"
+)
 
 func NewTool(c *Config, noColor, verbose, strictMode bool) *AccTool {
 	return &AccTool{
@@ -33,8 +36,8 @@ func NewTool(c *Config, noColor, verbose, strictMode bool) *AccTool {
 
 func (a *AccTool) ReplaceAccountIDsFromFiles(filepaths []string) error {
 	for _, path := range filepaths {
-		path, _ := filepath.Abs(path)
-		err := a.ReplaceAccountIDsFromFile(path)
+		p, _ := filepath.Abs(path)
+		err := a.ReplaceAccountIDsFromFile(p)
 		if err != nil {
 			return err
 		}
@@ -97,7 +100,7 @@ func (a *AccTool) replaceWithAccountIDs(currentLine string) {
 		if found == unknownItem {
 			containsUnknownItems = true
 		}
-		newLine = strings.Replace(newLine, accountID, fmt.Sprintf("%s", found), -1)
+		newLine = strings.ReplaceAll(newLine, accountID, found)
 	}
 
 	if containsUnknownItems && a.strictMode {
@@ -112,7 +115,7 @@ func (a *AccTool) SearchAll(patterns []string) {
 	hasMatches := false
 	for _, pattern := range patterns {
 		found := a.Search(pattern)
-		if hasMatches != true && found {
+		if !hasMatches && found {
 			hasMatches = true
 		}
 	}
