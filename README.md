@@ -2,7 +2,7 @@
 
 ***A trusty helper for working with AWS account IDs.***
 
-![](https://img.shields.io/badge/Go-1.16%2B-blue)
+![](https://img.shields.io/badge/Go-1.19%2B-blue)
 ![](https://img.shields.io/github/issues/cbrgm/awsacc)
 ![](https://img.shields.io/github/license/cbrgm/awsacc)
 
@@ -21,7 +21,7 @@ It can also be used as ***part of a CI/CD pipeline*** to match used account IDs 
 
 You can find the latest release [here](https://github.com/cbrgm/awsacc/releases) (Linux, Win, Mac 64-bit).
 
-You can also build `awsacc` from source (Go 1.16+ required).
+You can also build `awsacc` from source (Go 1.19+ required).
 
 ```
 git clone git@github.com:cbrgm/awsacc.git && cd awsacc
@@ -39,12 +39,12 @@ docker run --rm -it \
 
 where `~/.aws/accounts.json` is your config file and `$(pwd)/file.json` is the file to check.
 
-### Configuration 
+### Configuration
 
-A configuration file must be created so that the tool can search and substitute AWS account names and IDs. 
-The configuration file is a JSON file consisting of accounts (tuples of names and IDs). 
+A configuration file must be created so that the tool can search and substitute AWS account names and IDs.
+The configuration file is a JSON file consisting of accounts (tuples of names and IDs).
 
-By default, it is stored under the path `$HOME/.aws/accounts.json`. 
+By default, it is stored under the path `$HOME/.aws/accounts.json`.
 You can also reference a config file via the environment variable `AWSACC_CONFIG` (Example: `export AWSACC_CONFIG=/path/to/config.json`).
 
 ***~/.aws/accounts.json***

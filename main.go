@@ -129,7 +129,7 @@ func setupGeneralFlags() {
 
 func usageAndExit(msg string) {
 	if msg != "" {
-		fmt.Fprintf(os.Stderr, msg)
+		fmt.Fprint(os.Stderr, msg)
 		fmt.Fprintf(os.Stderr, "\n\n")
 	}
 	flag.Usage()
